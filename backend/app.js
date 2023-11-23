@@ -14,6 +14,7 @@ mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.ne
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,8 +23,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// Configuration de Multer pour gérer l'upload de fichiers audio
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); // Les fichiers téléchargés seront enregistrés dans le dossier "uploads"
@@ -32,6 +31,7 @@ const storage = multer.diskStorage({
     cb(null, file.originalname); // Le nom du fichier téléchargé sera conservé
   }
 });
+
 const upload = multer({ storage: storage });
 
 // Route pour l'upload de fichiers audio
@@ -40,7 +40,7 @@ app.post('/uploadSong', upload.single('audioFile'), async (req, res) => {
   const { title, artist } = req.body;
   const audioFilePath = req.file.path; // Récupérer le chemin du fichier audio
 
-  // Créer une nouvelle chanson dans la base de données
+  // Utilisez le modèle de chanson pour enregistrer la chanson dans la base de données
   const newSong = new Song({
     title: title,
     artist: artist,
