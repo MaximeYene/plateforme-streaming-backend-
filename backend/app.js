@@ -4,7 +4,6 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
 
 //Connexion a la base de donnees mongoDB
 mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.net/?retryWrites=true&w=majority',
@@ -23,26 +22,37 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(bodyParser.json());
 
-
-app.use((req, res, next) => {
-  console.log('Requête reçue !');
-  next();
+// Configuration de Multer pour gérer l'upload de fichiers audio
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Les fichiers téléchargés seront enregistrés dans le dossier "uploads"
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Le nom du fichier téléchargé sera conservé
+  }
 });
+const upload = multer({ storage: storage });
 
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
+// Route pour l'upload de fichiers audio
+app.post('/uploadSong', upload.single('audioFile'), async (req, res) => {
+  // Extraction des informations de la chanson depuis la requête
+  const { title, artist } = req.body;
+  const audioFilePath = req.file.path; // Récupérer le chemin du fichier audio
 
-app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
+  // Créer une nouvelle chanson dans la base de données
+  const newSong = new Song({
+    title: title,
+    artist: artist,
+    audioFilePath: audioFilePath
+  });
 
-app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
+  try {
+    const savedSong = await newSong.save();
+    res.status(201).json(savedSong); // Renvoyer la chanson enregistrée
+  } catch (err) {
+    res.status(400).send(err); // En cas d'erreur, renvoyer un code de statut d'erreur
+  }
 });
 
 module.exports = app;
