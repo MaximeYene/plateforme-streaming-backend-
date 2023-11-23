@@ -15,6 +15,7 @@ mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.ne
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route pour l'upload de fichiers audio
-app.post('/uploadSong', upload.single('audioFile'), async (req, res) => {
+app.post('http://localhost:3000/uploadSong/', upload.single('audioFile'), async (req, res) => {
   // Extraction des informations de la chanson depuis la requête
   const { title, artist } = req.body;
   const audioFilePath = req.file.path; // Récupérer le chemin du fichier audio
