@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const bodyParser = require('body-parser');
-const Song= require('./models/song');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
@@ -27,26 +26,23 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 
-// Route pour l'upload de la musique
-app.post('/uploads/', upload.single('musicFile'), async (req, res) => {
-    const { originalname, path } = req.file;
-    res.json({message:'Musique bien enregistree'})
+app.use((req, res, next) => {
+  console.log('Requête reçue !');
+  next();
+});
 
-    // Créer une nouvelle chanson dans la base de données
-    const newSong = new Song({
-        title: req.body.title,
-        artist: req.body.artist,
-        file_path: path,  // chemin du fichier stocké
-        original_file_name: originalname // Enregistrer le nom original du fichier
+app.use((req, res, next) => {
+  res.status(201);
+  next();
+});
 
-    });
+app.use((req, res, next) => {
+  res.json({ message: 'Votre requête a bien été reçue !' });
+  next();
+});
 
-    try {
-        const savedSong = await newSong.save();
-        res.status(201).send(savedSong);
-    } catch (err) {
-        res.status(400).send(err);
-    }
+app.use((req, res, next) => {
+  console.log('Réponse envoyée avec succès !');
 });
 
 module.exports = app;
