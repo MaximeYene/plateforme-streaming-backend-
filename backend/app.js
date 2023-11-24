@@ -3,7 +3,6 @@ const multer = require('multer');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Song = require('./models/song');
-// const Audio = require('./models/audio');
 
 const app = express();
 
@@ -40,6 +39,27 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
     res.status(500).json({Message:'Erreur lors du traitement du fichier audio'});
   }
 });
+
+
+// Endpoint GET pour récupérer un fichier audio par son titre
+app.get('/api/songs/audio', async (req, res) => {
+  try {
+    const title = req.query.title;
+    const song = await Song.findOne({ title: title });
+
+    if (!song) {
+      return res.status(404).json({ message: 'Fichier audio non trouvé' });
+    }
+
+    // Récupérer l'audio à partir de la base de données ou du système de fichiers selon votre cas
+    // Exemple avec envoi du fichier audio en réponse
+    res.set({ 'Content-Type': 'audio/mpeg', 'Content-Disposition': 'attachment; filename="audio.mp3"' });
+    res.download(song.audioFilePath);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la récupération du fichier audio' });
+  }
+});
+
 
 
 module.exports = app;
