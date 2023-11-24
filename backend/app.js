@@ -3,7 +3,7 @@ const multer = require('multer');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Song = require('./models/song');
-const Audio = require('./models/audio');
+// const Audio = require('./models/audio');
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
   
   try {
     if(!req.file){
-      return res.status(400).json({Message:'Aucun fichier audio n a été telechargé!'})
+      return res.status(400).json({Message:'Aucun fichier audio n a été téléchargé!'})
     }
     const { title, artist } = req.body;
   const audioFilePath = req.file.path;
@@ -51,18 +51,18 @@ app.get('/api/songs/:id', async (req, res) => {
   }
 });
 
-// Endpoint GET pour télécharger un fichier audio par son ID
-app.get('/api/audio/:audioId', async (req, res) => {
-  const audioId = req.params.audioId;
+// Endpoint GET pour télécharger un fichier audio par son titre
+app.get('/api/songByTitle/:Title', async (req, res) => {
+  const songTitle = req.params.songTitle;
 
   try {
-    const audio = await Audio.findById(audioId);
+    const song = await Song.findOne(title);
 
-    if (!audio) {
+    if (!song) {
       return res.status(404).json({ message: "Audio not found" });
     }
 
-    res.sendFile(audio.audioFilePath);
+    res.sendFile(song.audioFilePath);
 
   } catch (error) {
     res.status(500).json({ message: "Error downloading audio" });
