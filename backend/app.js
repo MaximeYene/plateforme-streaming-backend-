@@ -41,32 +41,5 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
   }
 });
 
-// Endpoint GET pour récupérer un fichier audio par son ID
-app.get('/api/songs/:id', async (req, res) => {
-  try {
-    const song = await Song.findById(req.params.id);
-    res.status(200).json(song);
-  } catch (err) {
-    res.status(404).send(err);
-  }
-});
-
-// Endpoint GET pour télécharger un fichier audio par son titre
-app.get('/api/songByTitle/:Title', async (req, res) => {
-  const songTitle = req.params.songTitle;
-
-  try {
-    const song = await Song.findOne(title);
-
-    if (!song) {
-      return res.status(404).json({ message: "Audio not found" });
-    }
-
-    res.sendFile(song.audioFilePath);
-
-  } catch (error) {
-    res.status(500).json({ message: "Error downloading audio" });
-  }
-});
 
 module.exports = app;
