@@ -53,7 +53,7 @@ app.get('/api/songs/audio', async (req, res) => {
 
     // Récupérer l'audio à partir de la base de données ou du système de fichiers selon votre cas
     // Exemple avec envoi du fichier audio en réponse
-    res.set({ 'Content-Type': 'audio/mpeg', 'Content-Disposition': 'attachment; filename="audio.mp3"' });
+    res.set({ 'Title': 'title', 'artiste': 'artist','audioFilePath':'audioFilePath' });
     res.download(song.audioFilePath);
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la récupération du fichier audio' });
