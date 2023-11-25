@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connexion à la base de données MongoDB
-mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.net/uploadsDatabase', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('Connexion à MongoDB réussie !'))
