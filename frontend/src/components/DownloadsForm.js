@@ -6,6 +6,8 @@ import axios from "axios";
 const DownloadsFormular=()=>{
     const [searchTitle, setSearchTitle] = useState('');
     const [audioURL, setAudioURL] = useState('');
+    const [audioTitle, setAudioTitle]=useState('');
+    const [audioArtist, setAudioArtist]=useState('');
 
     const handleClearForm=()=>{
       setSearchTitle('');
@@ -16,6 +18,8 @@ const DownloadsFormular=()=>{
           const response = await axios.get(`http://localhost:3000/api/songs/audio?title=${searchTitle}`);
           const audioBlob = new Blob([response.data]);
           setAudioURL(URL.createObjectURL(audioBlob));
+          setAudioTitle(response.data.title);
+          setAudioArtist(response.data.artist);
         } catch (error) {
           console.error('Erreur lors de la récupération du fichier audio', error);
         }
@@ -32,7 +36,13 @@ const DownloadsFormular=()=>{
         <h2>Récupérer un fichier audio:</h2>
         <input type="text" placeholder="Titre" value={searchTitle} onChange={e => setSearchTitle(e.target.value)} />
         <Button sx={{marginTop:'5%'}} variant="contained" onClick={handleSearch}>Rechercher</Button>
-        {audioURL && <audio controls src={audioURL} />}
+        {audioURL && (
+        <div>
+          <h3>{audioTitle}-{audioArtist}</h3>
+          <audio controls src={audioURL} />
+        </div>
+      )}
+
 
       </Box>
     )

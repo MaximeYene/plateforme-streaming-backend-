@@ -47,6 +47,7 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
 app.get('/api/songs/audio', async (req, res) => {
   try {
     const title = req.query.title;
+    const artist=req.query.artist;
     const song = await Song.findOne({ title: title });
 
     if (!song) {
