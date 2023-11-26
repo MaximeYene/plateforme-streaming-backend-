@@ -16,6 +16,12 @@ function Formular() {
     setAudioFile(event.target.files[0]);
   };
 
+  const handleDownloadsClear=()=>{
+    setTitle('');
+    setArtist('');
+    setAudioFile(null);
+  }
+
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('title', title);
@@ -32,6 +38,7 @@ function Formular() {
     } catch (error) {
       console.error('Erreur lors du téléchargement du fichier audio', error);
     }
+    handleDownloadsClear();
   };
 
   const handleSearch = async () => {
