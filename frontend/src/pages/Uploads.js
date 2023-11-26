@@ -1,13 +1,18 @@
 import { Box } from "@mui/material";
-import TitleUploads from "../components/UploadsTitle";
 import Formular from "../components/UploadsForm";
+import Topbar from "../components/Navbar";
 
 
-const Uploads=()=>{
-    return(
+const Uploads = () => {
+    return (
         <Box>
-            <TitleUploads/>
-            <Formular/>
+            <Topbar />
+            <Box sx={{
+                display:'flex',
+                justifyContent:'center'
+            }} >
+                <Formular />
+            </Box>
         </Box>
     )
 }

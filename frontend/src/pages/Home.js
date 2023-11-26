@@ -1,12 +1,18 @@
+import { Box } from "@mui/material";
 import Choice from "../components/HomeComponent";
+import Topbar from "../components/Navbar";
 
 function Home(){
-    const title='Home';
     return(
-        <div>
-            <h1>{title}</h1>
-            <Choice/>
-        </div>
+        <Box>
+            <Topbar/>
+            <Box sx={{
+                display:'flex',
+                justifyContent:'center'
+            }} >
+                <Choice/>
+            </Box>
+        </Box>
     )
 }
 
