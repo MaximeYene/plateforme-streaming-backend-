@@ -1,7 +1,6 @@
 // import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import React, { useState } from 'react';
-
 import axios from "axios";
 
 
@@ -15,12 +14,6 @@ function Formular() {
   const handleFileChange = event => {
     setAudioFile(event.target.files[0]);
   };
-
-  const handleDownloadsClear=()=>{
-    setTitle('');
-    setArtist('');
-    setAudioFile(null);
-  }
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -38,13 +31,13 @@ function Formular() {
     } catch (error) {
       console.error('Erreur lors du téléchargement du fichier audio', error);
     }
-    handleDownloadsClear();
   };
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/songs/audio?title=${searchTitle}`);
-      setAudioURL(URL.createObjectURL(response.data));
+      const audioBlob = new Blob([response.data]);
+      setAudioURL(URL.createObjectURL(audioBlob));
     } catch (error) {
       console.error('Erreur lors de la récupération du fichier audio', error);
     }
