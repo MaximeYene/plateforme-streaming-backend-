@@ -43,7 +43,7 @@ function Formular() {
         borderRadius:'10px',
         padding:'2%'
       }} >
-        <h2>Télécharger un fichier audio:</h2>
+        <h2>Enregistrer un fichier audio:</h2>
         Title:<br/>
         <input type="text" placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)} /><br/>
         Artist:<br/>

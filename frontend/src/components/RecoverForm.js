@@ -33,7 +33,7 @@ const RecoverFormular=()=>{
           borderRadius:'10px',
           padding:'2%'
         }} >
-        <h2>Récupérer un fichier audio:</h2>
+        <h2>Rechercher un fichier audio:</h2>
         <input type="text" placeholder="Titre" value={searchTitle} onChange={e => setSearchTitle(e.target.value)} />
         <Button sx={{marginTop:'5%'}} variant="contained" onClick={handleSearch}>Rechercher</Button>
         {audioURL && (
