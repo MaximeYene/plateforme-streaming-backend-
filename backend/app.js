@@ -61,4 +61,25 @@ app.get('/api/songs/audio', async (req, res) => {
   }
 });
 
+// Endpoint GET pour télécharger un fichier audio par son titre
+app.get('/api/songs/download', async (req, res) => {
+  try {
+    const title = req.query.title;
+    const song = await Song.findOne({ title: title });
+
+    if (!song) {
+      return res.status(404).json({ message: 'Fichier audio non trouvé' });
+    }
+
+    // Récupérer le chemin du fichier audio à partir de la base de données
+    const audioFilePath = song.audioFilePath;
+
+    // Envoyer le fichier audio au client
+    res.download(audioFilePath, `${title}.mp3`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors du téléchargement du fichier audio' });
+  }
+});
+
 module.exports = app;

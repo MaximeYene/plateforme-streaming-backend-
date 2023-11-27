@@ -19,6 +19,7 @@ const Topbar=()=>{
             }} >
                 <Link to='/'>Home</Link>
                 <Link to='/uploads'>Uploads</Link>
+                <Link to='/recover'>Recover</Link>
                 <Link to='/downloads'>Downloads</Link>
             </Box>
             <h4>{description}</h4>
