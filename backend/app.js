@@ -2,8 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
+const swaggerConfig = require('./SwaggerConfig');
 const Song = require('./models/song');
 
 const app = express();
@@ -21,26 +21,10 @@ mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.ne
 // Middleware pour gérer le téléchargement de fichiers audio
 const upload = multer({ dest: 'uploads/' });
 
-// Définition de vos routes
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Gestion des fichiers audio API',
-      version: '1.0.0',
-      description: 'API pour gérer les fichiers audio'
-    },
-    servers: [
-      {
-        url: 'http://localhost:3000/api'
-      }
-    ]
-  },
-  apis: ['app.js'] // Entrez le nom de votre fichier principal qui contient les définitions de route
-};
-
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
+// Insérer le code Swagger ici
+const swaggerDocs = swaggerConfig; // Récupérer la configuration Swagger depuis votre fichier séparé
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+// Fin de l'insertion du code de Swagger
 
 // Endpoint POST pour l'upload de fichiers audio
 app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
