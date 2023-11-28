@@ -9,13 +9,13 @@ const Choice = () => {
     return (
         <Box className='choice-container' >
             <Box>
-                <Button sx={{fontSize:'25px'}} variant='contained' ><Link style={{textDecoration:'none', color:'#fff'}} to='/uploads'>Uploads</Link></Button>
+                <Button sx={{ fontSize: '25px' }} variant='contained' ><Link style={{ textDecoration: 'none', color: '#fff' }} to='/uploads'>Uploads</Link></Button>
             </Box>
             <Box>
-                <Button sx={{fontSize:'25px'}} variant='contained' ><Link style={{textDecoration:'none', color:'#fff'}} to='/recover'>Recover</Link></Button>
+                <Button sx={{ fontSize: '25px' }} variant='contained' ><Link style={{ textDecoration: 'none', color: '#fff' }} to='/recover'>Recover</Link></Button>
             </Box>
             <Box>
-                <Button sx={{fontSize:'25px'}} variant='contained' ><Link style={{textDecoration:'none', color:'#fff'}} to='/downloads'>Downloads</Link></Button>
+                <Button sx={{ fontSize: '25px' }} variant='contained' ><Link style={{ textDecoration: 'none', color: '#fff' }} to='/downloads'>Downloads</Link></Button>
             </Box>
 
         </Box>
