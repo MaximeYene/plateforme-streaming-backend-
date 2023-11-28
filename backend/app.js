@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const swaggerUI = require('swagger-ui-express');
 const swaggerConfig = require('./SwaggerConfig');
 const Song = require('./models/song');
+const SaveSearch = require('./models/saveSearch')
 
 const app = express();
 
@@ -18,8 +19,11 @@ mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.ne
 }).then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.error('Connexion à MongoDB échouée !'));
 
-// Middleware pour gérer le téléchargement de fichiers audio
+// Middleware pour gérer l upload de fichiers audio
 const upload = multer({ dest: 'uploads/' });
+
+//Liddleware pour gerer la sauvegarde des recherches
+const saveSearchAudio = multer({ dest: 'saveResearch/' });
 
 // Insertion du code Swagger
 const swaggerDocs = swaggerConfig; // Récupération de la configuration Swagger depuis le fichier séparé
@@ -49,6 +53,28 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
     res.status(500).json({ message: 'Erreur lors du traitement du fichier audio' });
   }
 });
+
+
+//Endpoint POST pour la sauvegarde des recherches
+app.post('/api/saveSearch', saveSearchAudio.single('audioFile'), async (req, res) => {
+  try {
+    const { title, artist } = req.body;
+    const audioFilePath = req.file.path;
+
+    const newSave = new SaveSearch({
+      title: title,
+      artist: artist,
+      audioFilePath: audioFilePath
+    });
+    await newSave.save();
+
+    res.status(201).json({ message: 'Recherche enregistrée avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur lors de l'enregistrement de la recherche" })
+  }
+});
+
 
 // Endpoint GET pour récupérer un fichier audio par son titre
 app.get('/api/songs/audio', async (req, res) => {

@@ -48,6 +48,39 @@ const SwaggerConfig={
           }
         }
       },
+      "/api/saveSearch":{
+        "post": {
+          "summary": "Sauvegarde des recherches de fichiers audio",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "properties": {
+                    "audioFile": {
+                      "type": "string",
+                      "format": "binary"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "artist": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "'Recherche enregistrée avec succès"
+            },
+            "500": {
+              "description": "Erreur lors de l'enregistrement de la recherche"
+            }
+          }
+        }
+      },
       "/api/songs/audio": {
         "get": {
           "summary": "Récupération d'un fichier audio par titre",
