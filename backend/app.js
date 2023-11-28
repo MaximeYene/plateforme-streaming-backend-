@@ -21,8 +21,8 @@ mongoose.connect('mongodb+srv://maximeyene:Y5991Jmoo@cluster0.gkug5kv.mongodb.ne
 // Middleware pour gérer le téléchargement de fichiers audio
 const upload = multer({ dest: 'uploads/' });
 
-// Insérer le code Swagger ici
-const swaggerDocs = swaggerConfig; // Récupérer la configuration Swagger depuis votre fichier séparé
+// Insertion du code Swagger
+const swaggerDocs = swaggerConfig; // Récupération de la configuration Swagger depuis le fichier séparé
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 // Fin de l'insertion du code de Swagger
 
@@ -54,7 +54,6 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
 app.get('/api/songs/audio', async (req, res) => {
   try {
     const title = req.query.title;
-    const artist=req.query.artist;
     const song = await Song.findOne({ title: title });
 
     if (!song) {
@@ -67,6 +66,24 @@ app.get('/api/songs/audio', async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la récupération du fichier audio' });
   }
 });
+
+
+//Endpoint GET pour afficher toutes la liste de tous les audio recherchés par artiste
+app.get('/api/songs/allAudio', async (req, res) => {
+  try {
+    const artist = req.query.artist;
+    const song = await Song.find({ artist: artist })
+
+    if (!song) {
+      return res.status(404).json({ message: 'fichiers audio non trouvés' })
+    }
+    res.json(song);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors de la recuperation des fichiers audio' })
+  }
+})
 
 // Endpoint GET pour télécharger un fichier audio par son titre
 app.get('/api/songs/download', async (req, res) => {

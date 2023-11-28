@@ -59,14 +59,6 @@ const SwaggerConfig={
               "schema": {
                 "type": "string"
               }
-            },
-            {
-              "name": "artist",
-              "in": "query",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
             }
           ],
           "responses": {
@@ -78,6 +70,29 @@ const SwaggerConfig={
             },
             "500": {
               "description": "Erreur lors de la récupération du fichier audio"
+            }
+          }
+        }
+      },
+      "/api/songs/allAudio" : {
+        "get": {
+          "summary": "Récupération de tous les fichiers audio d un artiste lors d'une recherche",
+          "parameters": [
+            {
+              "name": "artist",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "404": {
+              "description": "fichiers audio non trouvés"
+            },
+            "500": {
+              "description": "Erreur lors de la recuperation des fichiers audio"
             }
           }
         }
