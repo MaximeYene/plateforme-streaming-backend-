@@ -8,6 +8,7 @@ import '../styles/Uploads.css'
 function Formular() {
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
+  const [album, setAlbum] = useState('');
   const [audioFile, setAudioFile] = useState(null);
 
   
@@ -18,12 +19,14 @@ function Formular() {
   const handleClearForm=()=>{
     setTitle('');
     setArtist('');
+    setAlbum('');
   }
 
   const handleUpload = async () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('artist', artist);
+    formData.append('album', album);
     formData.append('audioFile', audioFile);
 
     try {
@@ -50,6 +53,8 @@ function Formular() {
         <input type="text" placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)} /><br/>
         Artist:<br/>
         <input type="text" placeholder="Artiste" value={artist} onChange={e => setArtist(e.target.value)} /><br/>
+        Album:<br/>
+        <input type="text" placeholder="album" value={album} onChange={e => setAlbum(e.target.value)}  />
         File path:<br/>
         <input type="file" onChange={handleFileChange} /><br/>
         <Button variant="contained" sx={{marginTop:'3%'}} onClick={handleUpload}>Télécharger</Button>
