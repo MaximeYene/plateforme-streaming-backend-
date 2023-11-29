@@ -131,6 +131,27 @@ app.get('/api/songs/allAudioByAlbum', async (req, res) => {
   }
 })
 
+
+// Endpoint pour les recommandations basées sur les recherches
+app.get('/api/recommandations', async (req, res) => {
+  try {
+    const { title, artist } = req.query;
+
+    // Recherche dans la base de données pour les recherches précédentes similaires
+    const similarSearches = await SaveSearch.find({
+      $or: [
+        { title: { $regex: title, $options: 'i' } }, // Recherche contient le titre
+        { artist: { $regex: artist, $options: 'i' } } // Recherche contient l'artiste
+      ]
+    }).limit(5); // Limiter le nombre de recommandations à retourner
+
+    res.status(200).json({ recommendations: similarSearches });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur lors de la génération des recommandations" });
+  }
+});
+
 // Endpoint GET pour télécharger un fichier audio par son titre
 app.get('/api/songs/download', async (req, res) => {
   try {

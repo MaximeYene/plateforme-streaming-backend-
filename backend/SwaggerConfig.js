@@ -14,7 +14,7 @@ const SwaggerConfig = {
   "paths": {
     "/api/songs/upload": {
       "post": {
-        "summary": "Téléchargement de fichiers audio",
+        "summary": "Upload de fichiers audio",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -83,7 +83,7 @@ const SwaggerConfig = {
     },
     "/api/songs/audio": {
       "get": {
-        "summary": "Récupération d'un fichier audio par titre",
+        "summary": "Récupération d'un fichier audio par titre lors d'une recherche",
         "parameters": [
           {
             "name": "title",
@@ -130,7 +130,7 @@ const SwaggerConfig = {
         }
       }
     },
-    "/api/songs/allAudioByAlbum":{
+    "/api/songs/allAudioByAlbum": {
       "get": {
         "summary": "Récupération de tous les fichiers audio en fonction du nom de l'abum lors d'une recherche",
         "parameters": [
@@ -142,6 +142,37 @@ const SwaggerConfig = {
               "type": "string"
             }
           }
+        ],
+        "responses": {
+          "404": {
+            "description": "fichiers audio non trouvés"
+          },
+          "500": {
+            "description": "Erreur lors de la recuperation des fichiers audio"
+          }
+        }
+      }
+    },
+    "/api/recommandations": {
+      "get": {
+        "summary": "Recommandations basées sur les recherches",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artist",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
         ],
         "responses": {
           "404": {
