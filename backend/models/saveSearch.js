@@ -12,6 +12,10 @@ const saveSchema = new mongoose.Schema({
   album:{
     type: String,
     // required: true
+  },
+  audioFilePath: {
+    type: String,
+    // required: true
   }
 })
 

@@ -63,7 +63,8 @@ const RecoverFormular = () => {
       <Button sx={{ marginTop: '5%' }} variant="contained" onClick={handleSearch}>Rechercher</Button>
       {audioURL && (
         <div>
-          <h3>{audioTitle}-{audioArtist}-{audioAlbum}</h3>
+          <h3>{audioTitle}-{audioArtist}</h3>
+          <h3>{audioAlbum}</h3>
           <audio controls src={audioURL} />
         </div>
       )}

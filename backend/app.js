@@ -61,11 +61,13 @@ app.post('/api/saveSearch', saveSearchAudio.single('audioFile'), async (req, res
   try {
     const { title, artist,album } = req.body;
 
+    const audioFilePath = req.file.path;
 
     const newSave = new SaveSearch({
       title: title,
       artist: artist,
-      album: album
+      album: album,
+      audioFilePath: audioFilePath
     });
     await newSave.save(); // Enregistrement des données dans la base de données
 
