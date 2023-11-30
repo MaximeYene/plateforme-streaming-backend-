@@ -8,6 +8,7 @@ const RecoverFormular = () => {
   const [audioURL, setAudioURL] = useState('');
   const [audioTitle, setAudioTitle] = useState('');
   const [audioArtist, setAudioArtist] = useState('');
+  const [audioAlbum, setAudioAlbum] = useState('');
 
 
 
@@ -23,11 +24,13 @@ const RecoverFormular = () => {
       setAudioURL(URL.createObjectURL(audioBlob));
       setAudioTitle(response.data.title);
       setAudioArtist(response.data.artist);
+      setAudioAlbum(response.data.album)
   
       // Enregistrement de la recherche dans la base de données
       const formData = new FormData();
       formData.append('audioTitle', audioTitle);
       formData.append('audioArtist', audioArtist);
+      formData.append('album', audioAlbum);
       formData.append('audioFile', audioBlob);
   
       const saveSearchResponse = await axios.post('http://localhost:3000/api/saveSearch', formData, {
@@ -60,7 +63,7 @@ const RecoverFormular = () => {
       <Button sx={{ marginTop: '5%' }} variant="contained" onClick={handleSearch}>Rechercher</Button>
       {audioURL && (
         <div>
-          <h3>{audioTitle}-{audioArtist}</h3>
+          <h3>{audioTitle}-{audioArtist}-{audioAlbum}</h3>
           <audio controls src={audioURL} />
         </div>
       )}
