@@ -216,9 +216,9 @@ const SwaggerConfig = {
         }
       }
     },
-    '/api/songs/deleteByTitle': {
+    '/api/songs/deleteByTitleAdmin': {
       "delete": {
-        "summary": "Suppression d'un fichier audio par titre",
+        "summary": "Suppression d'un fichier audio par titre par l'admin",
         "parameters": [
           {
             "name": "title",
@@ -232,6 +232,32 @@ const SwaggerConfig = {
         "responses": {
           "200": {
             "description": "Suppression du fichier audio réussie"
+          },
+          "404": {
+            "description": "Fichier audio non trouvé"
+          },
+          "500": {
+            "description": "Erreur lors de la suppression du fichier audio"
+          }
+        }
+      }
+    },
+    '/api/songs/deleteByTitleClient': {
+      "delete": {
+        "summary": "Suppression d'un fichier audio par titre par le client",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Le fichier audio a été comme supprimé"
           },
           "404": {
             "description": "Fichier audio non trouvé"

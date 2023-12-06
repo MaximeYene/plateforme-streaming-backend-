@@ -176,8 +176,8 @@ app.get('/api/songs/download', async (req, res) => {
 
 
 
-//Endpoint DELETE pour supprimer un audio dans la base de données par titre
-app.delete('/api/songs/deleteBytitle', async (req, res) => {
+//Endpoint DELETE pour supprimer un audio dans la base de données par titre par l'admin
+app.delete('/api/songs/deleteBytitleAdmin', async (req, res) => {
   try {
     const title = req.query.title;
     await Song.deleteOne({ title: title });
@@ -186,6 +186,26 @@ app.delete('/api/songs/deleteBytitle', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Erreur lors de la suppression du telechargement' })
+  }
+})
+
+//Endpoitn DELETE pour supprimer un audio par titre par le client
+app.delete('/api/songs/deleteByTitleClient', async (req,res) => {
+  try{
+    const title=req.query.title;
+    const deletedSong=await Song.findOne({ title: title });
+
+    if(!deletedSong){
+      res.status(404).json({message: 'Fichier audio non trouvé'})
+    }
+
+    await Song.findOneAndUpdate({ title: title}, { $set: { deleted: true}});
+
+    res.status(200).json({message: 'Le fichier audio a été comme supprimé'});
+
+  }catch(err){
+    console.error(err);
+    res.status(500).json({message: 'Erreur lors de la suppression du fichier audio'})
   }
 })
 
