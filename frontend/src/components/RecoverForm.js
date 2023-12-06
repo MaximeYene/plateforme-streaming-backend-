@@ -17,14 +17,18 @@ const RecoverFormular = () => {
     setSearchTitle('');
   }
 
+
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/songs/audio?title=${searchTitle}`);
-  
+
       if (response.data) {
         const { title, artist, album, audioFilePath } = response.data;
         setAudioURL(audioFilePath);
-        
+        setAudioTitle(title);
+        setAudioArtist(artist);
+        setAudioAlbum(album);
+
         const fileResponse = await fetch(audioFilePath);
         const audioData = await fileResponse.blob();
         const formData = new FormData();
@@ -32,28 +36,28 @@ const RecoverFormular = () => {
         formData.append('artist', artist);
         formData.append('album', album);
         formData.append('audioFile', audioData, 'audio.mp3');
-  
+
         const saveSearchResponse = await axios.post('http://localhost:3000/api/saveSearch', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-  
+
         if (saveSearchResponse.status === 201) {
           console.log('Recherche sauvegardée avec succès', saveSearchResponse.data);
         } else {
           console.error('Erreur lors de la sauvegarde de la recherche', saveSearchResponse.data);
         }
       }
-  
+
       handleClearForm();
     } catch (error) {
       console.error('Erreur lors de la récupération du fichier audio ou de la sauvegarde de la recherche', error);
       // Affiche un message d'erreur à l'utilisateur si nécessaire
     }
   };
-  
-  
+
+
 
   return (
     <Box sx={{
