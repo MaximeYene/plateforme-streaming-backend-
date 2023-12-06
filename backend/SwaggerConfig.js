@@ -29,6 +29,9 @@ const SwaggerConfig = {
                   },
                   "artist": {
                     "type": "string"
+                  },
+                  "album": {
+                    "type": "string"
                   }
                 }
               }
@@ -64,6 +67,9 @@ const SwaggerConfig = {
                     "type": "string"
                   },
                   "artist": {
+                    "type": "string"
+                  },
+                  "album": {
                     "type": "string"
                   }
                 }
