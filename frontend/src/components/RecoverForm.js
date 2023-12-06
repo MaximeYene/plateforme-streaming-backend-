@@ -24,12 +24,12 @@ const RecoverFormular = () => {
       setAudioURL(URL.createObjectURL(audioBlob));
       setAudioTitle(response.data.title);
       setAudioArtist(response.data.artist);
-      setAudioAlbum(response.data.album)
+      setAudioAlbum(response.data.album);
   
       // Enregistrement de la recherche dans la base de données
       const formData = new FormData();
-      formData.append('audioTitle', audioTitle);
-      formData.append('audioArtist', audioArtist);
+      formData.append('title', audioTitle);
+      formData.append('artist', audioArtist);
       formData.append('album', audioAlbum);
       formData.append('audioFile', audioBlob);
   
@@ -63,8 +63,7 @@ const RecoverFormular = () => {
       <Button sx={{ marginTop: '5%' }} variant="contained" onClick={handleSearch}>Rechercher</Button>
       {audioURL && (
         <div>
-          <h3>{audioTitle}-{audioArtist}</h3>
-          <h3>{audioAlbum}</h3>
+          <h3>{audioTitle}-{audioArtist}-{audioAlbum}</h3>
           <audio controls src={audioURL} />
         </div>
       )}

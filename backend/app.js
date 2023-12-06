@@ -59,7 +59,7 @@ app.post('/api/songs/upload', upload.single('audioFile'), async (req, res) => {
 //Endpoint POST pour la sauvegarde des recherches
 app.post('/api/saveSearch', saveSearchAudio.single('audioFile'), async (req, res) => {
   try {
-    const { title, artist,album } = req.body;
+    const { title, artist, album } = req.body;
 
     const audioFilePath = req.file.path;
 
@@ -89,7 +89,7 @@ app.get('/api/songs/audio', async (req, res) => {
       return res.status(404).json({ message: 'Fichier audio non trouvé' });
     }
 
-    res.json({ title: song.title, artist: song.artist, audioFilePath: song.audioFilePath });
+    res.json({ title: song.title, artist: song.artist, album: song.album, audioFilePath: song.audioFilePath });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Erreur lors de la récupération du fichier audio' });
