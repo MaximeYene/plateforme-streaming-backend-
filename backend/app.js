@@ -79,6 +79,18 @@ app.post('/api/saveSearch', saveSearchAudio.single('audioFile'), async (req, res
 });
 
 
+//Endpoint GET pour recuperer aleatoirement une liste de 10 audio dans la base de donnes
+app.get('/api/songs/randomAudio', async (req, res) => {
+  try {
+    const randomAudios = await Song.aggregate([{ $sample: { size: 10 } }]);
+    res.json(randomAudios);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur lors de la recuperation des fichiers audio' })
+  }
+})
+
+
 // Endpoint GET pour récupérer un fichier audio par son titre
 app.get('/api/songs/audio', async (req, res) => {
   try {
@@ -190,22 +202,22 @@ app.delete('/api/songs/deleteBytitleAdmin', async (req, res) => {
 })
 
 //Endpoitn DELETE pour supprimer un audio par titre par le client
-app.delete('/api/songs/deleteByTitleClient', async (req,res) => {
-  try{
-    const title=req.query.title;
-    const deletedSong=await Song.findOne({ title: title });
+app.delete('/api/songs/deleteByTitleClient', async (req, res) => {
+  try {
+    const title = req.query.title;
+    const deletedSong = await Song.findOne({ title: title });
 
-    if(!deletedSong){
-      res.status(404).json({message: 'Fichier audio non trouvé'})
+    if (!deletedSong) {
+      res.status(404).json({ message: 'Fichier audio non trouvé' })
     }
 
-    await Song.findOneAndUpdate({ title: title}, { $set: { deleted: true}});
+    await Song.findOneAndUpdate({ title: title }, { $set: { deleted: true } });
 
-    res.status(200).json({message: 'Le fichier audio a été comme supprimé'});
+    res.status(200).json({ message: 'Le fichier audio a été comme supprimé' });
 
-  }catch(err){
+  } catch (err) {
     console.error(err);
-    res.status(500).json({message: 'Erreur lors de la suppression du fichier audio'})
+    res.status(500).json({ message: 'Erreur lors de la suppression du fichier audio' })
   }
 })
 

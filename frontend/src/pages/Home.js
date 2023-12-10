@@ -1,16 +1,19 @@
 import { Box } from "@mui/material";
-import Choice from "../components/HomeComponent";
-import Topbar from "../components/Navbar";
+import NavigationComponent from "../components/navigationComponent";
+import LoginComponent from "../components/loginComponent";
+import AudioListComponent from "../components/audioListComponent";
 
-function Home(){
-    return(
+function Home() {
+    return (
         <Box>
-            <Topbar/>
-            <Box sx={{
-                display:'flex',
-                justifyContent:'center'
-            }} >
-                <Choice/>
+            <Box>
+                <NavigationComponent />
+            </Box>
+            <Box>
+                <LoginComponent/>
+            </Box>
+            <Box>
+               <AudioListComponent/> 
             </Box>
         </Box>
     )
